@@ -93,9 +93,77 @@ worker_init = multiprocessing.Process(target=process_init, args=(queue1,))
 
 worker1 = multiprocessing.Process(target=process1, args=(queue1, queue2))
 worker2 = multiprocessing.Process(target=process2, args=(queue2,))
+
+# Start the proceses
+worker_init.start()
+worker1.start()
+worker2.start()
 ```
 
+#### The full code to sum up
 
+```python
+import multiprocessing
+import math
+import sys
+
+ENTRY_ARRAY = range(0, 5000)
+
+
+def f1(value):
+    return value ** 2
+
+
+def f2(value):
+    return math.sqrt(value)
+
+def process_init(queueIn):
+    for val in ENTRY_ARRAY:
+        print("entering the Q : ", val)
+        queueIn.put(val)
+
+
+def process1(queueIn, queueOut):
+    while True:
+        try:
+            tmp = queueIn.get()
+            print("tmp process1 : ", tmp)
+            queueOut.put(f1(tmp))
+        except Exception as e:
+            print("Exception 1 : ", e)
+            break
+
+
+def process2(queueIn):
+    while True:
+        try:
+            tmp = queueIn.get()
+            print("tmp process2 : ", f2(tmp))
+        except Exception as e:
+            print("Exception 2 : ", e)
+            break
+
+
+def main():
+
+    queue1 = multiprocessing.Queue()
+    queue2 = multiprocessing.Queue()
+
+
+    worker_init = multiprocessing.Process(target=process_init, args=(queue1,))
+    worker1 = multiprocessing.Process(target=process1, args=(queue1, queue2))
+    worker2 = multiprocessing.Process(target=process2, args=(queue2,))
+
+    worker_init.start()
+    worker1.start()
+    worker2.start()
+
+
+if __name__ == '__main__':
+    sys.stdout = open(r'C:\Users\noambl\Desktop\flow.txt', 'w')
+    main()
+
+```
 
 
 
