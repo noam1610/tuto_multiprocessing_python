@@ -2,6 +2,6 @@
 
 The goal of this article is to present shortly a solution for the following problem.
 
-![Screenshot](test.png)
+![Screenshot](problem.png)
 
 
