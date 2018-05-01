@@ -37,7 +37,7 @@ def process_init(queueIn):
 
 #### First process
 
-As an example, the first process will square the incoming numbers and throw them out  
+As an example, the **Process1** will square the incoming numbers from the Queue1 and throw them out to the Queue2
 
 
 
