@@ -23,7 +23,9 @@ Basically, the first in the queue will be th efirst to go out to the next proces
 
 ### The code
 
-Let's moke the data coming in with a simple function:
+#### Entry point (WEB)
+
+Let's moke the data coming in with a simple function. This function adds in the first queue numbers one by one. 
 ```python
 ENTRY_ARRAY = range(0, 5000)
 
@@ -32,4 +34,27 @@ def process_init(queueIn):
         print("entering the Q : ", val)
         queueIn.put(val)
 ```
+
+#### First process
+
+As an example, the first process will square the incoming numbers and throw them out  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
