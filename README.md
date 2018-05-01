@@ -21,6 +21,8 @@ In order to create a flow between them we use a Queue (LILO).
 Basically, the first in the queue will be th efirst to go out to the next process.
 
 
+![Screenshot](solution_easy.png)
+
 ### The code
 
 #### Entry point (WEB)
@@ -37,16 +39,61 @@ def process_init(queueIn):
 
 #### First process
 
-As an example, the **Process1** will square the incoming numbers from the Queue1 and throw them out to the Queue2
+As an example, the **Process1** will square the incoming numbers from the Queue1 and throw them out to the Queue2.
+
+```python
+
+def f1(value):
+    return value ** 2
+
+def process1(queueIn, queueOut):
+    while True:
+        try:
+            tmp = queueIn.get()
+            print("tmp process1 : ", tmp)
+            queueOut.put(f1(tmp))
+        except Exception as e:
+            print("Exception 1 : ", e)
+            break
+
+```
+
+#### Second process
+
+As an example, the **Process2** will operate the sqrt on the incoming numbers from the Queue2/Process1 and throw them out (to the Queue3 if we want).
 
 
+```python
+def f2(value):
+    return math.sqrt(value)
+
+def process2(queueIn):
+    while True:
+        try:
+            tmp = queueIn.get()
+            print("tmp process2 : ", f2(tmp))
+            #queueOut.put(f2(tmp))
+        except Exception as e:
+            print("Exception 2 : ", e)
+            break
+```
 
 
+#### The multiprocessing part
 
+First we instantiate the queues:
+```python
+queue1 = multiprocessing.Queue()
+queue2 = multiprocessing.Queue()
+```
+Then we instantiate the Processes:
+```python
+# The worket init is just the process to fill the queue1 with numbers
+worker_init = multiprocessing.Process(target=process_init, args=(queue1,))
 
-
-
-
+worker1 = multiprocessing.Process(target=process1, args=(queue1, queue2))
+worker2 = multiprocessing.Process(target=process2, args=(queue2,))
+```
 
 
 
