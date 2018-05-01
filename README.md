@@ -24,12 +24,12 @@ Basically, the first in the queue will be th efirst to go out to the next proces
 ### The code
 
 Let's moke the data coming in with a simple function:
-'''python
+```python
 ENTRY_ARRAY = range(0, 5000)
 
 def process_init(queueIn):
     for val in ENTRY_ARRAY:
         print("entering the Q : ", val)
         queueIn.put(val)
-'''
+```
 
